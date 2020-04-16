@@ -122,8 +122,9 @@ abstract class Controller extends BaseController
                     'table'           => $row->details->pivot_table,
                     'foreignPivotKey' => $row->details->foreign_pivot_key ?? null,
                     'relatedPivotKey' => $row->details->related_pivot_key ?? null,
-                    'parentKey'       => $row->details->parent_key ?? null,
-                    'relatedKey'      => $row->details->key,
+                    'parentKey'       => $row->details->key,
+                    'relatedKey'      => $row->details->related_key ?? null,
+					'morphName'       => $row->details->morphName ?? null,
                 ];
             } else {
                 $data->{$row->field} = $content;
@@ -146,14 +147,33 @@ abstract class Controller extends BaseController
         }
 
         foreach ($multi_select as $sync_data) {
-            $data->belongsToMany(
-                $sync_data['model'],
-                $sync_data['table'],
-                $sync_data['foreignPivotKey'],
-                $sync_data['relatedPivotKey'],
-                $sync_data['parentKey'],
-                $sync_data['relatedKey']
-            )->sync($sync_data['content']);
+			if (isset($sync_data['morphName'])) {
+				$relation = $data->morphToMany(
+					$sync_data['model'],
+					$sync_data['morphName'],
+					$sync_data['table'],
+					$sync_data['foreignPivotKey'],
+					$sync_data['relatedPivotKey'],
+					$sync_data['parentKey'],
+					$sync_data['relatedKey']
+				);
+				/**
+					morphToMany(string $related, string $name, string $table = null, string $foreignPivotKey = null, string $relatedPivotKey = null, string $parentKey = null, string $relatedKey = null, bool $inverse = false)
+					return $this->morphToMany(config('rinvex.categories.models.category'), 'categorizable', config('rinvex.categories.tables.categorizables'), 'categorizable_id', 'category_id')
+                    ->withTimestamps();
+					**/
+			} else {
+				$relation = $data->belongsToMany(
+					$sync_data['model'],
+					$sync_data['table'],
+					$sync_data['foreignPivotKey'],
+					$sync_data['relatedPivotKey'],
+					$sync_data['parentKey'],
+					$sync_data['relatedKey']
+				);
+			}
+
+			$relation->sync($sync_data['content']);
         }
 
         // Rename folders for newly created data through media-picker
