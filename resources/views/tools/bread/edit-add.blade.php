@@ -81,9 +81,16 @@
                         <div class="panel-body">
                             <div class="row clearfix">
                                 <div class="col-md-6 form-group">
+                                    <label for="name">{{ __('voyager::database.name') }}</label>
+                                    <input type="text" class="form-control" name="name" placeholder="{{ __('generic_name') }}"
+                                           value="{{ $dataType->name ?? '' }}">
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-md-6 form-group">
                                     <label for="name">{{ __('voyager::database.table_name') }}</label>
-                                    <input type="text" class="form-control" readonly name="name" placeholder="{{ __('generic_name') }}"
-                                           value="{{ $dataType->name ?? $table }}">
+                                    <input type="text" class="form-control" readonly name="table_name" placeholder="{{ __('generic_name') }}"
+                                           value="{{ $dataType->table_name ?? $table }}">
                                 </div>
                             </div>
                             <div class="row clearfix">

@@ -18,6 +18,7 @@ class DataType extends Model
     protected $table = 'data_types';
 
     protected $fillable = [
+		'table_name',
         'name',
         'slug',
         'display_name_singular',

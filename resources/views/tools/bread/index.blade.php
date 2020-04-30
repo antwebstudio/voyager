@@ -51,12 +51,33 @@
                                      class="btn btn-danger btn-sm delete">
                                     <i class="voyager-trash"></i> {{ __('voyager::generic.delete') }}
                                 </a>
-                            @else
-                                <a href="{{ route('voyager.bread.create', $table->name) }}"
-                                   class="_btn btn-default btn-sm pull-right">
-                                    <i class="voyager-plus"></i> {{ __('voyager::bread.add_bread') }}
-                                </a>
                             @endif
+							
+							@if($table->extraDataType)
+								@foreach($table->extraDataType as $dataType)
+									<div>
+									<a href="{{ route('voyager.' . $dataType['slug'] . '.index') }}"
+									   class="btn btn-warning btn-sm browse_bread" style="margin-right: 0;">
+										<i class="voyager-plus"></i> {{ __('voyager::generic.browse') }}
+									</a>
+									<a href="{{ route('voyager.bread.edit', $dataType['name']) }}"
+									   class="btn btn-primary btn-sm edit">
+										<i class="voyager-edit"></i> {{ __('voyager::generic.edit') }}
+									</a>
+									<a href="#delete-bread" data-id="{{ $dataType['id'] }}" data-name="{{ $dataType['name'] }}"
+										 class="btn btn-danger btn-sm delete">
+										<i class="voyager-trash"></i> {{ __('voyager::generic.delete') }}
+									</a>
+									</div>
+								@endforeach
+							@endif
+						
+							<div>
+							<a href="{{ route('voyager.bread.create', $table->name) }}"
+							   class="_btn btn-default btn-sm pull-right">
+								<i class="voyager-plus"></i> {{ __('voyager::bread.add_bread') }}
+							</a>
+							</div>
                         </td>
                     </tr>
                 @endforeach
