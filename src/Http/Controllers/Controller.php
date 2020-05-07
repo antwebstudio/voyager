@@ -125,6 +125,7 @@ abstract class Controller extends BaseController
                     'parentKey'       => $row->details->key,
                     'relatedKey'      => $row->details->related_key ?? null,
 					'morphName'       => $row->details->morphName ?? null,
+					'syncOrAttach'    => $row->details->syncOrAttach ?? 'sync',
                 ];
             } else {
                 $data->{$row->field} = $content;
@@ -173,7 +174,7 @@ abstract class Controller extends BaseController
 				);
 			}
 
-			$relation->sync($sync_data['content']);
+			$relation->{$sync_data['syncOrAttach']}($sync_data['content']);
         }
 
         // Rename folders for newly created data through media-picker
@@ -224,7 +225,11 @@ abstract class Controller extends BaseController
             if (!empty($field->display_name)) {
                 if (!empty($data[$fieldName]) && is_array($data[$fieldName])) {
                     foreach ($data[$fieldName] as $index => $element) {
-                        $name = $element->getClientOriginalName() ?? $index + 1;
+						if (isset($element) && is_object($element)) {
+							$name = $element->getClientOriginalName() ?? $index + 1;
+						} else {
+							$name = '';
+						}
 
                         $customAttributes[$fieldName.'.'.$index] = $field->getTranslatedAttribute('display_name').' '.$name;
                     }
