@@ -20,7 +20,7 @@ class VoyagerBreadController extends Controller
     {
         $this->authorize('browse_bread');
 
-        $dataTypes = Voyager::model('DataType')->select('id', 'name', 'slug', 'table_name')->get()->groupBy('table_name')->toArray();
+        $dataTypes = Voyager::model('DataType')->select('id', 'name', 'slug', 'table_name', 'description')->get()->groupBy('table_name')->toArray();
 
         $tables = array_map(function ($table) use ($dataTypes) {
             $table = Str::replaceFirst(DB::getTablePrefix(), '', $table);
@@ -33,6 +33,7 @@ class VoyagerBreadController extends Controller
                 'prefix'     => DB::getTablePrefix(),
                 'name'       => $table,
                 'slug'       => $firstDataType['slug'] ?? null,
+				'description'       => $firstDataType['description'] ?? null,
                 'dataTypeId' => $firstDataType['id'] ?? null,
 				'extraDataType' => $dataTypes[$table] ?? [],
             ];
