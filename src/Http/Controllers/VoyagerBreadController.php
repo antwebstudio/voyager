@@ -125,6 +125,19 @@ class VoyagerBreadController extends Controller
             ? DB::getTablePrefix().app($dataType->model_name)->getTable()
             : DB::getTablePrefix().$dataType->name
         );
+        $model = app($dataType->model_name);
+		
+		if (isset($model->additional_attributes)) {
+			foreach ($model->additional_attributes as $attribute) {
+				$fieldOptions[$attribute] = [
+					'name' => $attribute,
+					'field' => $attribute,
+					'type' => 'varchar',
+					'key' => null,
+					'null' => 'YES',
+				];
+			}
+		}
 
         $isModelTranslatable = is_bread_translatable($dataType);
         $tables = SchemaManager::listTableNames();
