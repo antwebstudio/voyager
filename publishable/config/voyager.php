@@ -15,6 +15,7 @@ return [
         'default_role'                 => 'user',
         'default_avatar'               => 'users/default.png',
         'redirect'                     => '/admin',
+		'username_field'               => 'email',
     ],
 
     /*
