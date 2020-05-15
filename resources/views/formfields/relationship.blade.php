@@ -166,9 +166,15 @@
                 >
 
                         @php
-                            $selected_values = isset($dataTypeContent) ? $dataTypeContent->belongsToMany($options->model, $options->pivot_table, $options->foreign_pivot_key ?? null, $options->related_pivot_key ?? null, $options->parent_key ?? null, $options->key)->get()->map(function ($item, $key) use ($options) {
-                                return $item->{$options->key};
-                            })->all() : array();
+							if (isset($options->morphName)) {
+								$selected_values = isset($dataTypeContent) ? $dataTypeContent->morphToMany($options->model, $options->morphName, $options->pivot_table, $options->foreign_pivot_key ?? null, $options->related_pivot_key ?? null, $options->parent_key ?? null, $options->key)->get()->map(function ($item, $key) use ($options) {
+									return $item->{$options->key};
+								})->all() : array();
+							} else {
+								$selected_values = isset($dataTypeContent) ? $dataTypeContent->belongsToMany($options->model, $options->pivot_table, $options->foreign_pivot_key ?? null, $options->related_pivot_key ?? null, $options->parent_key ?? null, $options->key)->get()->map(function ($item, $key) use ($options) {
+									return $item->{$options->key};
+								})->all() : array();
+							}
                             $relationshipOptions = app($options->model)->all();
                         $selected_values = old($relationshipField, $selected_values);
                         @endphp
