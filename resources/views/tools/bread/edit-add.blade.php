@@ -173,7 +173,7 @@
                                     <input type="text" class="form-control" name="policy_name" placeholder="{{ __('voyager::bread.policy_class') }}"
                                            value="{{ $dataType->policy_name ?? '' }}">
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="generate_permissions">{{ __('voyager::bread.generate_permissions') }}</label><br>
                                     <?php $checked = (isset($dataType->generate_permissions) && $dataType->generate_permissions == 1) || (isset($generate_permissions) && $generate_permissions); ?>
                                     <input type="checkbox"
@@ -183,12 +183,24 @@
                                            data-off="{{ __('voyager::generic.no') }}"
                                            @if($checked) checked @endif >
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-2 form-group">
                                     <label for="server_side">{{ __('voyager::bread.server_pagination') }}</label><br>
                                     <?php $checked = (isset($dataType->server_side) && $dataType->server_side == 1) || (isset($server_side) && $server_side); ?>
                                     <input type="checkbox"
                                            name="server_side"
                                            class="toggleswitch"
+                                           data-on="{{ __('voyager::generic.yes') }}"
+                                           data-off="{{ __('voyager::generic.no') }}"
+                                           @if($checked) checked @endif >
+                                </div>
+                                <div class="col-md-2 form-group">
+                                    <label for="server_side">{{ __('voyager::bread.allow_order') }}</label><br>
+                                    <?php $checked = (isset($dataType->details->allow_order) && $dataType->details->allow_order == 1) || (isset($allow_order) && $allow_order); ?>
+									<input type="hidden" name="details[allow_order]" value="0" />
+                                    <input type="checkbox"
+                                           name="details[allow_order]"
+                                           class="toggleswitch"
+										   value="1"
                                            data-on="{{ __('voyager::generic.yes') }}"
                                            data-off="{{ __('voyager::generic.no') }}"
                                            @if($checked) checked @endif >
