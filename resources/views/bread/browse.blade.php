@@ -43,7 +43,7 @@
             <div class="col-md-12">
                 <div class="panel panel-bordered">
                     <div class="panel-body">
-                        @if ($isServerSide)
+                        @if ($isServerSide && isset($searchNames))
                             <form method="get" class="form-search">
                                 <div id="search-input">
                                     <div class="col-2">
@@ -85,7 +85,7 @@
                                         @endif
                                         @foreach($dataType->browseRows as $row)
                                         <th>
-                                            @if ($isServerSide)
+                                            @if ($isServerSide && ($dataType->details->allow_order ?? true))
                                                 <a href="{{ $row->sortByUrl($orderBy, $sortOrder) }}">
                                             @endif
                                             {{ $row->getTranslatedAttribute('display_name') }}
@@ -272,14 +272,14 @@
                                     ]) }}</div>
                             </div>
                             <div class="pull-right">
-                                {{ $dataTypeContent->appends([
-                                    's' => $search->value,
-                                    'filter' => $search->filter,
-                                    'key' => $search->key,
-                                    'order_by' => $orderBy,
-                                    'sort_order' => $sortOrder,
-                                    'showSoftDeleted' => $showSoftDeleted,
-                                ])->links() }}
+								{{ $dataTypeContent->appends([
+									's' => $search->value,
+									'filter' => $search->filter,
+									'key' => $search->key,
+									'order_by' => $orderBy,
+									'sort_order' => $sortOrder,
+									'showSoftDeleted' => $showSoftDeleted,
+								])->links() }}
                             </div>
                         @endif
                     </div>
