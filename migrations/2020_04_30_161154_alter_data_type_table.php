@@ -15,7 +15,7 @@ class AlterDataTypeTable extends Migration
     {
         //
         Schema::table('data_types', function (Blueprint $table) {
-            $table->string('table_name');
+            $table->string('table_name')->after('name');
         });
 		
 		\DB::statement('UPDATE data_types SET table_name = name');
